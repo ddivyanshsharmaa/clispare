@@ -1,0 +1,60 @@
+{
+  "name": "clispare",
+  "version": "0.1.0",
+  "description": "One place to sign in to all your AI coding CLIs and API keys, with automatic failover between different engines.",
+  "type": "commonjs",
+  "main": "src/cli.js",
+  "bin": {
+    "clispare": "bin/clispare.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddivyanshsharmaa/clispare"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "ai-cli",
+    "coding-assistant",
+    "failover",
+    "fallback",
+    "rate-limit",
+    "usage-limit",
+    "account-manager",
+    "multi-account",
+    "api-keys",
+    "claude-code",
+    "claude",
+    "codex",
+    "gemini-cli",
+    "antigravity",
+    "grok",
+    "deepseek",
+    "openrouter",
+    "groq",
+    "mistral",
+    "together",
+    "llm",
+    "developer-tools"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ddivyanshsharmaa/clispare#readme",
+  "bugs": {
+    "url": "https://github.com/ddivyanshsharmaa/clispare/issues"
+  },
+  "author": {
+    "name": "Divyansh Sharma"
+  }
+}

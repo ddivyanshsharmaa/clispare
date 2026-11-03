@@ -1,0 +1,8 @@
+node_modules/
+.clispare/
+*.key
+accounts.json
+state.json
+.env
+.env.*
+coverage/
