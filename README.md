@@ -6,6 +6,7 @@
 Hit a usage limit in Claude Code? `clispare run` moves the job to Codex, agy, Grok or an API key and remembers who is cooling down.
 
 [![License: MIT](https://img.shields.io/github/license/ddivyanshsharmaa/clispare?style=flat-square)](LICENSE)
+[![npm](https://img.shields.io/npm/v/clispare?style=flat-square)](https://www.npmjs.com/package/clispare)
 [![Stars](https://img.shields.io/github/stars/ddivyanshsharmaa/clispare?style=flat-square)](https://github.com/ddivyanshsharmaa/clispare/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/ddivyanshsharmaa/clispare?style=flat-square)](https://github.com/ddivyanshsharmaa/clispare/commits)
 ![Node](https://img.shields.io/badge/node-%E2%89%A518-339933?style=flat-square)
@@ -36,11 +37,11 @@ Zero dependencies, no daemon, no telemetry. It drives the real CLIs you already 
 Requires Node.js 18 or newer.
 
 ```bash
-npm install -g github:ddivyanshsharmaa/clispare
+npm install -g clispare
 clispare --help
 ```
 
-Or run it without installing: `npx github:ddivyanshsharmaa/clispare status`.
+Or run it without installing: `npx clispare status`.
 
 ## Quick start
 
