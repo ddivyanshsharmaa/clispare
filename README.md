@@ -12,7 +12,7 @@ Hit a usage limit in Claude Code? `clispare run` moves the job to Codex, agy, Gr
 ![Platforms](https://img.shields.io/badge/Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square)
 
-<img src="docs/demo.png" alt="clispare moving a job from Claude Code to Codex when Claude hits its usage limit" width="820">
+<img src="docs/demo.gif" alt="clispare moving a job from Claude Code to Codex when Claude hits its usage limit" width="820">
 
 <sub>The demo uses stub engines so a usage limit can be triggered on purpose. Real limit messages still need tuning: see [Known limits](#known-limits).</sub>
 
