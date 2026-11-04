@@ -1,6 +1,6 @@
 <div align="center">
 
-# clispare
+# clispare: AI coding CLI failover for Claude Code, Codex, Gemini CLI and Grok
 
 **One place to sign in to all your AI coding CLIs and API keys, with automatic failover between different engines.**
 Hit a usage limit in Claude Code? `clispare run` moves the job to Codex, agy, Grok or an API key and remembers who is cooling down.
@@ -122,6 +122,15 @@ This is version 0.1. Please read these before relying on it:
 - **A new profile folder is empty.** An extra Claude Code or Codex account folder has none of your settings or skills.
 - **macOS Keychain behaviour is untested.** Whether each Claude Code folder keeps its own login on macOS has not been verified. Tested so far on Windows only.
 - clispare does not switch accounts inside a running interactive session.
+
+## Alternatives
+
+clispare is one of several tools in this space. Pick the one that fits:
+
+- **[clauth](https://github.com/uwuclxdy/clauth)**: switches between many Claude Code accounts and shows live usage bars. Best if you only use Claude Code.
+- **clispare** (this project): moves a job between *different* tools and API keys when one hits a limit. Best if you use several AI CLIs. Zero dependencies, Node 18+.
+
+This project is independent and is not affiliated with or endorsed by Anthropic, OpenAI, Google, xAI or any other service it can call.
 
 ## FAQ
 
