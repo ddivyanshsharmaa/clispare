@@ -84,7 +84,17 @@ Cooldowns are saved in `state.json`, so the next `clispare run` skips a limited 
 
 ### Several accounts of one service
 
-clispare supports several accounts per service (for example `claude:work` and `claude:personal`, each in its own folder), but **it never rotates between accounts of the same provider to get past a usage limit**. That is a deliberate choice: provider terms may forbid it and it can get accounts banned. `run` uses one account per service (the default one, or the one you pick with `--lane`), and fails over only to a different service. Choosing an account yourself, for example work versus personal, is always fine.
+clispare supports several accounts per service (for example `claude:work` and `claude:personal`, each in its own folder), but **by default it does not rotate between accounts of the same provider to get past a usage limit**. `run` uses one account per service (the default one, or the one you pick with `--lane`), and fails over only to a different service. Choosing an account yourself, for example work versus personal, is always fine.
+
+#### Optional: account rotation (off by default, at your own risk)
+
+If you want `run` to move to the next account of the same service after a usage limit, turn it on yourself with `--rotate-accounts` (or `CLISPARE_ROTATE=1`):
+
+```
+clispare run --rotate-accounts "your prompt"
+```
+
+> **Warning.** Switching accounts to get past a usage limit may break that provider's terms of service. Providers can rate-limit, suspend or ban the accounts involved, and may link accounts that share a phone number, card or device. Only use accounts you can afford to lose, and check the provider's terms yourself. clispare prints this warning every time rotation is on. You are responsible for how you use it.
 
 ## Supported services
 

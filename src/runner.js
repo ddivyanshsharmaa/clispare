@@ -33,6 +33,7 @@ function buildOrderedLanes({
   accounts,
   engines = null,
   lanes = [],
+  rotate = false,
 }) {
   // Map of service -> account name from --lane service:name (first wins per service)
   const laneOverrides = new Map();
@@ -79,11 +80,23 @@ function buildOrderedLanes({
     }
   }
 
-  // Pick at most ONE account per service
+  // Pick at most ONE account per service, unless the user opted in to rotation
   const ordered = [];
   for (const serviceId of serviceOrder) {
     const forService = accounts.filter((a) => a.service === serviceId);
     let chosen = null;
+    if (rotate && forService.length > 1) {
+      // Opt-in: chosen/default account first, then the rest in the order added
+      const targetName = laneOverrides.get(serviceId);
+      const first =
+        (targetName && forService.find((a) => a.name === targetName)) ||
+        forService.find((a) => a.default) ||
+        forService[0];
+      for (const acc of [first, ...forService.filter((a) => a !== first)]) {
+        ordered.push({ serviceId, account: acc, missingLaneAccount: null });
+      }
+      continue;
+    }
     if (laneOverrides.has(serviceId)) {
       const targetName = laneOverrides.get(serviceId);
       chosen = forService.find((a) => a.name === targetName) || null;
@@ -146,6 +159,7 @@ async function runWithFailover({
   prompt,
   engines = null,
   lanes = [],
+  rotate = false,
   timeoutMs = null,
   json = false,
   verbose = false,
@@ -158,7 +172,8 @@ async function runWithFailover({
 }) {
   const resolvedHome = homeDir || getHomeDir(env);
   const accounts = listAccounts(resolvedHome);
-  const orderedCandidates = buildOrderedLanes({ accounts, engines, lanes });
+  const rotateOn = Boolean(rotate) || (env && env.CLISPARE_ROTATE === '1');
+  const orderedCandidates = buildOrderedLanes({ accounts, engines, lanes, rotate: rotateOn });
 
   const effectiveRetryDelay =
     typeof retryDelayMs === 'number'
@@ -181,8 +196,19 @@ async function runWithFailover({
     }
   }
 
+  if (rotateOn) {
+    logStderr(
+      '[clispare] WARNING: account rotation is ON. Moving to another account of the same provider after a usage limit may break that provider\'s terms and can get accounts rate-limited or banned. You accepted this risk by turning it on.'
+    );
+  }
+
+  const triedServices = new Set();
   for (const candidate of orderedCandidates) {
     const { serviceId, account, missingLaneAccount } = candidate;
+    if (account && triedServices.has(serviceId)) {
+      logStderr(`[clispare] rotating ${serviceId} to account ${account.name}`);
+    }
+    if (account) triedServices.add(serviceId);
 
     if (missingLaneAccount) {
       logVerbose(`[clispare] ${serviceId}:${missingLaneAccount}: skipped (account not found)`);

@@ -144,6 +144,49 @@ test('failover from CLI limit to next engine, cooldown persistence, and reset', 
   }
 });
 
+test('--rotate-accounts opts in to trying the next account of the same service', async () => {
+  const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'clispare-run-rotate-'));
+  const fakeBin = createFakeBinDir();
+  const invLog = path.join(homeDir, 'inv.json');
+  fs.writeFileSync(invLog, '[]', 'utf8');
+
+  try {
+    addAccount({ service: 'claude', name: 'main', kind: 'login' }, homeDir);
+    addAccount({ service: 'claude', name: 'backup', kind: 'login' }, homeDir);
+
+    // Limited on the first account, answers on the second
+    fakeBin.writeCli(
+      'claude',
+      `
+      const fs = require('node:fs');
+      const list = JSON.parse(fs.readFileSync(${JSON.stringify(invLog)}, 'utf8'));
+      list.push({ configDir: process.env.CLAUDE_CONFIG_DIR });
+      fs.writeFileSync(${JSON.stringify(invLog)}, JSON.stringify(list));
+      if (list.length === 1) {
+        process.stderr.write('Claude usage limit reached, resets at 11:59 PM\\n');
+        process.exit(1);
+      }
+      process.stdout.write('second account answered\\n');
+      process.exit(0);
+      `
+    );
+
+    const env = makeEnv(fakeBin.dir, homeDir);
+
+    const r = await execCli(['run', '--rotate-accounts', '--engines', 'claude', 'hi'], env, homeDir);
+    assert.equal(r.code, 0);
+    assert.match(r.stdout, /second account answered/);
+    assert.match(r.stderr, /WARNING: account rotation is ON/);
+    assert.match(r.stderr, /rotating claude to account backup/);
+    const runs = JSON.parse(fs.readFileSync(invLog, 'utf8'));
+    assert.equal(runs.length, 2);
+    assert.notEqual(runs[0].configDir, runs[1].configDir);
+  } finally {
+    fakeBin.cleanup();
+    fs.rmSync(homeDir, { recursive: true, force: true });
+  }
+});
+
 test('fatal error does NOT fail over and returns exit code 1', async () => {
   const homeDir = fs.mkdtempSync(path.join(os.tmpdir(), 'clispare-run-fatal-'));
   const fakeBin = createFakeBinDir();

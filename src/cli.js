@@ -68,10 +68,13 @@ Spawn the real CLI interactively with the isolated profile environment variable 
 and conflicting credential environment variables removed.
 For API-key accounts, prints the shell export line without revealing the key.`,
 
-  run: `Usage: clispare run [--engines a,b,c] [--lane service:name]... [--timeout SEC] [--json] [--verbose] [prompt...]
+  run: `Usage: clispare run [--engines a,b,c] [--lane service:name]... [--rotate-accounts] [--timeout SEC] [--json] [--verbose] [prompt...]
 
 Run a prompt headlessly with automatic failover across different services.
 Uses at most one account per service. Reads the prompt from arguments or stdin.
+--rotate-accounts (or CLISPARE_ROTATE=1) is OFF by default. It also moves to the
+next account of the same service after a usage limit. This may break that
+provider's terms and can get accounts limited or banned. Use at your own risk.
 Exit codes:
   0   Success
   1   Fatal task error (never fails over)
@@ -431,6 +434,7 @@ async function handleRun(args, ctx) {
   let timeoutSec = 600;
   let json = false;
   let verbose = false;
+  let rotate = false;
   const promptParts = [];
 
   let i = 0;
@@ -450,6 +454,11 @@ async function handleRun(args, ctx) {
       }
       if (arg === '--verbose' || arg === '-v') {
         verbose = true;
+        i++;
+        continue;
+      }
+      if (arg === '--rotate-accounts') {
+        rotate = true;
         i++;
         continue;
       }
@@ -508,6 +517,7 @@ async function handleRun(args, ctx) {
     prompt,
     engines,
     lanes,
+    rotate,
     timeoutMs: Math.round(timeoutSec * 1000),
     json,
     verbose,
