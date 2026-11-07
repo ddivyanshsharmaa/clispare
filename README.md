@@ -167,3 +167,7 @@ Tests use fake CLIs on `PATH` and a local HTTP server. Issues and pull requests 
 ---
 
 If clispare saves you a stalled afternoon, a ⭐ helps other people find it.
+
+---
+
+Built by [Divyansh Sharma](https://www.divyanshsharma.me), an AI automation and web developer in Jaipur, India. More of my work: [GitHub](https://github.com/ddivyanshsharmaa) · [LinkedIn](https://www.linkedin.com/in/ddivyanshsharmaa/) · [Substack](https://substack.com/@divyanshsharmaa) · [Website](https://www.divyanshsharma.me)
