@@ -101,7 +101,7 @@ test('CLI commands: default, remove, reset, doctor, help, version, and exit code
     // --version and --help
     const ver = await runCmd(['--version'], { homeDir });
     assert.equal(ver.code, 0);
-    assert.equal(ver.stdout.trim(), '0.1.0');
+    assert.equal(ver.stdout.trim(), require('../package.json').version);
 
     const help = await runCmd(['--help'], { homeDir });
     assert.equal(help.code, 0);
