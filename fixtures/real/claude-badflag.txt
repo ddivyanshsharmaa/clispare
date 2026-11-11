@@ -1,0 +1,9 @@
+# engine: claude
+# case: badflag
+# captured: 2026-11-11
+# command: claude --definitely-not-a-flag -p hi
+# exit: 1
+--- stdout ---
+
+--- stderr ---
+error: unknown option '--definitely-not-a-flag'

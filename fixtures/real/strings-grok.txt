@@ -1,0 +1,14 @@
+# Literal strings in the installed Grok CLI (grok.exe), grepped 2026-11-11.
+# Format: <expected class><TAB><exact string><TAB><source file>
+limit	You hit your free usage limit.	<HOME>/.grok/bin/grok.exe
+limit	You hit your weekly limit.	<HOME>/.grok/bin/grok.exe
+limit	You've hit the rate limit for your plan.	<HOME>/.grok/bin/grok.exe
+limit	out of credits or over your spending limit. Add credits and retry.	<HOME>/.grok/bin/grok.exe
+limit	subscription:free-usage-exhausted insufficient_quota	<HOME>/.grok/bin/grok.exe
+limit	status 429	<HOME>/.grok/bin/grok.exe
+limit	status 402	<HOME>/.grok/bin/grok.exe
+auth	Not signed in. To authenticate without a browser, run: grok login --device-code	captured live, see grok-loggedout.txt
+transient	Grok is temporarily unavailable. Please try again in a moment. (HTTP 503)	<HOME>/.grok/bin/grok.exe
+transient	Grok is temporarily overloaded	<HOME>/.grok/bin/grok.exe
+fatal	Disk quota exceeded	<HOME>/.grok/bin/grok.exe
+fatal	Agent-store quota exceeded: this write was rejected because the storage quota is full.	<HOME>/.grok/bin/grok.exe

@@ -1,0 +1,25 @@
+# engine: gemini
+# case: badmodel
+# captured: 2026-11-11
+# command: 
+# note: Fake GEMINI_API_KEY plus invalid model; the key error wins.
+# exit: 1
+--- stdout ---
+
+--- stderr ---
+Warning: True color (24-bit) support not detected. Using a terminal with true color enabled will result in a better visual experience.
+Ripgrep is not available. Falling back to GrepTool.
+Error when talking to Gemini API Full report available at: <TMP>\gemini-client-error-Turn.run-sendMessageStream-2026-11-11T14-53-10-798Z.json _ApiError: {"error":{"message":"{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"API key not valid. Please pass a valid API key.\",\n    \"status\": \"INVALID_ARGUMENT\",\n    \"details\": [\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.ErrorInfo\",\n        \"reason\": \"API_KEY_INVALID\",\n        \"domain\": \"googleapis.com\",\n        \"metadata\": {\n          \"service\": \"generativelanguage.googleapis.com\"\n        }\n      },\n      {\n        \"@type\": \"type.googleapis.com/google.rpc.LocalizedMessage\",\n        \"locale\": \"en-US\",\n        \"message\": \"API key not valid. Please pass a valid API key.\"\n      }\n    ]\n  }\n}\n","code":400,"status":""}}
+    at throwErrorIfNotOK (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:267315:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:267078:7
+    at async Models.generateContentStream (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:268174:16)
+    at async file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:310543:19
+    at async file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:287352:23
+    at async retryWithBackoff (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:307380:23)
+    at async GeminiChat.makeApiCallAndProcessStream (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:331230:28)
+    at async GeminiChat.streamWithRetries (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:330983:29)
+    at async Turn.run (file:///<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:331905:24) {
+  status: 400
+}
+An unexpected critical error occurred:[object Object]

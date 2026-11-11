@@ -1,0 +1,17 @@
+# engine: codex
+# case: badflag
+# captured: 2026-11-11
+# command: <HOME>/bin/codex-latest.cmd exec --definitely-not-a-flag hi
+# note: codex-latest.cmd wrapper exits 0 even on errors.
+# exit: 0
+--- stdout ---
+
+--- stderr ---
+error: unexpected argument '--definitely-not-a-flag' found
+
+  tip: to pass '--definitely-not-a-flag' as a value, use '-- --definitely-not-a-flag'
+
+Usage: codex exec [OPTIONS] [PROMPT]
+       codex exec [OPTIONS] <COMMAND> [ARGS]
+
+For more information, try '--help'.

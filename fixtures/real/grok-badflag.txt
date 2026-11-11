@@ -1,0 +1,15 @@
+# engine: grok
+# case: badflag
+# captured: 2026-11-11
+# command: grok --definitely-not-a-flag -p hi
+# exit: 2
+--- stdout ---
+
+--- stderr ---
+error: unexpected argument '--definitely-not-a-flag' found
+
+  tip: a similar argument exists: '--deny'
+
+Usage: grok --deny <RULE> [PROMPT]
+
+For more information, try '--help'.

@@ -1,0 +1,26 @@
+# engine: codex
+# case: badmodel
+# captured: 2026-11-11
+# command: env CODEX_HOME=<HOME>/.codex-personal <HOME>/bin/codex-latest.cmd exec --skip-git-repo-check --sandbox read-only -m nonexistent-model-xyz say hi
+# note: Personal login, invalid model; rejected locally before any work. Wrapper exits 0.
+# exit: 0
+--- stdout ---
+
+--- stderr ---
+Reading additional input from stdin...
+OpenAI Codex v0.166.0
+--------
+workdir: D:\Projects\clispare
+model: nonexistent-model-xyz
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: medium
+reasoning summaries: none
+session id: <redacted>
+--------
+user
+say hi
+warning: Model metadata for `nonexistent-model-xyz` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+ERROR: The 'nonexistent-model-xyz' model is not supported when using Codex with a ChatGPT account.
+ERROR: The 'nonexistent-model-xyz' model is not supported when using Codex with a ChatGPT account.

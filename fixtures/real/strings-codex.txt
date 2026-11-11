@@ -1,0 +1,22 @@
+# Literal strings in the installed Codex CLI 0.166.0, grepped 2026-11-11.
+# Some are fragments of a longer message (the binary stores them split around a value).
+# Codex writes the apostrophe in "You’ve" as U+2019. Kept exactly as found.
+# Format: <expected class><TAB><exact string><TAB><source file>
+limit	You’ve hit your usage limit. Upgrade to Plus to continue using Codex (https://chatgpt.com/explore/plus),	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/settings/usage to purchase more credits	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You’ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credits	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You’ve hit your usage limit. To get more access now, send a request to your admin	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	Usage limit reached. You've reached your usage limit. Increase your limits to continue using codex.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You're out of credits. Your workspace is out of credits. Add credits to continue using Codex.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You've reached your workspace credit limit	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	Your workspace is out of credits. Ask your workspace owner to refill in order to continue.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	You hit your spend cap set in your workspace. Increase your spend cap to continue.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	handshake error: rate limit exceeded: [redacted]	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	rate limit exceeded; sleeping.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	usage_limit_reached	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	quota_exceeded	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+limit	workspace_owner_credits_depleted	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+fatal	retry limit reached	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+fatal	Agent depth limit reached. Solve the task yourself.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+fatal	Process limit reached	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe
+fatal	OS file watch limit reached.	<HOME>/bin/codex-new/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe

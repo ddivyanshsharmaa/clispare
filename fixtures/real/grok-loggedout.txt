@@ -1,0 +1,16 @@
+# engine: grok
+# case: loggedout
+# captured: 2026-11-11
+# command: env GROK_HOME=<TMP>/homes/grok-loggedout grok -p say hi
+# exit: 1
+--- stdout ---
+
+--- stderr ---
+Not signed in. To authenticate without a browser, run:
+  grok login --device-code
+
+Alternatively, set the XAI_API_KEY environment variable or run `grok login` on a machine with a browser.
+Error: Not signed in. To authenticate without a browser, run:
+  grok login --device-code
+
+Alternatively, set the XAI_API_KEY environment variable or run `grok login` on a machine with a browser.

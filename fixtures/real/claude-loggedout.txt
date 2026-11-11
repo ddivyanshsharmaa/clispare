@@ -1,0 +1,9 @@
+# engine: claude
+# case: loggedout
+# captured: 2026-11-11
+# command: env CLAUDE_CONFIG_DIR=<TMP>/homes/claude-loggedout claude -p say hi
+# exit: 1
+--- stdout ---
+Not logged in · Please run /login
+--- stderr ---
+

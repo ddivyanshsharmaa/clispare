@@ -1,0 +1,47 @@
+# engine: codex
+# case: badkey
+# captured: 2026-11-11
+# command: env CODEX_HOME=<TMP>/homes/codex-badkey CODEX_API_KEY=sk-<redacted> OPENAI_API_KEY=sk-<redacted> <HOME>/bin/codex-latest.cmd exec --skip-git-repo-check say hi
+# note: Empty temp CODEX_HOME plus fake OPENAI_API_KEY/CODEX_API_KEY. Wrapper exits 0.
+# exit: 0
+--- stdout ---
+
+--- stderr ---
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "<TMP>\\" (codex_home: AbsolutePathBuf("<TMP>\\homes\\codex-badkey"))
+Reading additional input from stdin...
+2026-11-11T14:50:26.297136Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://chatgpt.com/backend-api/codex/models?client_version=0.166.0, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+2026-11-11T14:50:26.376474Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://chatgpt.com/backend-api/codex/models?client_version=0.166.0, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+2026-11-11T14:50:26.708672Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://chatgpt.com/backend-api/codex/models?client_version=0.166.0, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+OpenAI Codex v0.166.0
+--------
+workdir: D:\Projects\clispare
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: <redacted>
+--------
+user
+say hi
+2026-11-11T14:50:27.269546Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://chatgpt.com/backend-api/codex/models?client_version=0.166.0, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+2026-11-11T14:50:28.200580Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+2026-11-11T14:50:29.221415Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+2026-11-11T14:50:30.274330Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 2/5
+2026-11-11T14:50:31.581494Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 3/5
+2026-11-11T14:50:33.269700Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 4/5
+2026-11-11T14:50:35.875153Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 5/5
+2026-11-11T14:50:40.236402Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: wss://api.openai.com/v1/responses, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+ERROR: Reconnecting... 1/5
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+ERROR: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://api.openai.com/v1/responses, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key
+ERROR: unexpected status 401 Unauthorized: Incorrect API key provided: sk-<redacted>. You can find your API key at https://platform.openai.com/account/api-keys., url: https://api.openai.com/v1/responses, cf-ray: <redacted>, request id: req_<redacted>, auth error: 401, auth error code: invalid_api_key

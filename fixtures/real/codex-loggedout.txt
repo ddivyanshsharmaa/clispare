@@ -1,0 +1,43 @@
+# engine: codex
+# case: loggedout
+# captured: 2026-11-11
+# command: env CODEX_HOME=<TMP>/homes/codex-loggedout <HOME>/bin/codex-latest.cmd exec --skip-git-repo-check say hi
+# note: Empty temp CODEX_HOME. Wrapper exits 0.
+# exit: 0
+--- stdout ---
+
+--- stderr ---
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "<TMP>\\" (codex_home: AbsolutePathBuf("<TMP>\\homes\\codex-loggedout"))
+Reading additional input from stdin...
+OpenAI Codex v0.166.0
+--------
+workdir: D:\Projects\clispare
+model: gpt-6.1-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: none
+reasoning summaries: none
+session id: <redacted>
+--------
+user
+say hi
+2026-11-11T14:50:08.970363Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+2026-11-11T14:50:09.606968Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+2026-11-11T14:50:09.877828Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 2/5
+2026-11-11T14:50:10.377351Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 3/5
+2026-11-11T14:50:11.219680Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 4/5
+2026-11-11T14:50:12.958588Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+ERROR: Reconnecting... 5/5
+2026-11-11T14:50:16.001739Z ERROR codex_api::endpoint::responses_websocket: failed to connect to Responses WebSocket stage=Unknown
+warning: Falling back from WebSockets to HTTPS transport. unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, url: wss://api.openai.com/v1/responses, cf-ray: <redacted>
+ERROR: Reconnecting... 1/5
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+ERROR: unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, url: https://api.openai.com/v1/responses, cf-ray: <redacted>, request id: req_<redacted>
+ERROR: unexpected status 401 Unauthorized: Missing bearer or basic authentication in header, url: https://api.openai.com/v1/responses, cf-ray: <redacted>, request id: req_<redacted>

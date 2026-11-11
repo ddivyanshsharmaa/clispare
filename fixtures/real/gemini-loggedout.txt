@@ -1,0 +1,9 @@
+# engine: gemini
+# case: loggedout
+# captured: 2026-11-11
+# command: env HOME=<TMP>/homes/gemini-loggedout USERPROFILE=<TMP>/homes/gemini-loggedout GEMINI_CLI_HOME=<TMP>/homes/gemini-loggedout gemini -p say hi
+# exit: 41
+--- stdout ---
+
+--- stderr ---
+Please set an Auth method in your <TMP>\homes\gemini-loggedout\.gemini\settings.json or specify one of the following environment variables before running: GEMINI_API_KEY, GOOGLE_GENAI_USE_VERTEXAI, GOOGLE_GENAI_USE_GCA

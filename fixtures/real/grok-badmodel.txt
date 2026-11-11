@@ -1,0 +1,10 @@
+# engine: grok
+# case: badmodel
+# captured: 2026-11-11
+# command: grok -p say hi -m nonexistent-model-xyz
+# exit: 1
+--- stdout ---
+
+--- stderr ---
+Couldn't set model 'nonexistent-model-xyz': Invalid params: "unknown model id". Run 'grok models' to see available models.
+Error: Couldn't set model 'nonexistent-model-xyz': Invalid params: "unknown model id". Run 'grok models' to see available models.

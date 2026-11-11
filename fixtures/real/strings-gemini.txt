@@ -1,0 +1,7 @@
+# Literal strings in the installed Gemini CLI bundle (@google/gemini-cli), grepped 2026-11-11.
+# Format: <expected class><TAB><exact string><TAB><source file>
+limit	You have exhausted your daily quota on this model.	<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/chunk-YSBB75DZ.js:306678
+limit	Usage limit reached for gemini-3-pro.	composed from <HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/interactiveCli-7H2PS7RG.js:25492 (template `Usage limit reached for ${usageLimitReachedModel}.`)
+limit	Rate limit exceeded. Try again later.	<HOME>/AppData/Roaming/npm/node_modules/@google/gemini-cli/bundle/gemini-CQYKWDIK.js:14989
+auth	API key not valid. Please pass a valid API key.	captured live, see gemini-badkey.txt
+auth	Please set an Auth method in your settings.json or specify one of the following environment variables before running: GEMINI_API_KEY, GOOGLE_GENAI_USE_VERTEXAI, GOOGLE_GENAI_USE_GCA	captured live, see gemini-loggedout.txt

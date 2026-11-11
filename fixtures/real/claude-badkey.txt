@@ -1,0 +1,9 @@
+# engine: claude
+# case: badkey
+# captured: 2026-11-11
+# command: env CLAUDE_CONFIG_DIR=<TMP>/homes/claude-badkey ANTHROPIC_API_KEY=sk-<redacted> claude -p say hi
+# exit: 1
+--- stdout ---
+Invalid API key · Fix external API key
+--- stderr ---
+

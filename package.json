@@ -1,6 +1,6 @@
 {
   "name": "clispare",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "One place to sign in to all your AI coding CLIs and API keys, with automatic failover between different engines.",
   "type": "commonjs",
   "main": "src/cli.js",

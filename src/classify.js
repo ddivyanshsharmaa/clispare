@@ -1,18 +1,118 @@
 'use strict';
 
-// NOTE: These CLI message patterns are NOT verified against real provider output yet
-// and are expected to need tuning as providers update their CLI output formats.
-const limit =
-  /usage limit|rate.?limit|limit (reached|exceeded)|quota|too many requests|try again (in|after)|resets? (at|in)|credit|insufficient|out of (credits|tokens)|\b429\b|\b402\b/i;
-const auth =
-  /not (logged|signed) in|log ?in|sign ?in|unauthori[sz]ed|authenticat|invalid (api )?key|\b401\b|\b403\b|expired token/i;
+// Patterns are checked against real CLI output captured on 2026-11-11 (fixtures/real/*.txt)
+// and against the literal strings in the installed claude, codex, gemini, agy and grok
+// builds (fixtures/real/strings-*.txt). Bare words such as "quota", "credit", "limit reached"
+// or "try again in" are avoided on purpose: the same builds print "Disk quota exceeded",
+// "retry limit reached" and "Please try again in a moment" for problems that are not usage limits.
+const limit = new RegExp(
+  [
+    'usage limit', // Usage limit reached / You've hit your usage limit / Claude AI usage limit reached
+    'rate.?limit', // rate limit exceeded / Rate limited / rate_limit_error
+    'hit (?:your|the) [^.\\n]{0,40}?(?:limit|cap|budget)', // hit your session limit / spend cap / team's shared budget
+    'reached your [^.\\n]{0,40}?limit',
+    '(?<!(?:dis[ck]|storage|agent-store) )quota (?:reached|exceeded|exhausted)',
+    'exhausted your [^.\\n]{0,30}?quota',
+    'quota_exceeded|insufficient_quota|resource_exhausted|usage_limit_reached|credits_depleted',
+    'too many requests',
+    'out of (?:extra )?(?:usage|credits|tokens)',
+    'credit balance (?:is )?too low',
+    'spend(?:ing)? (?:limit|cap)',
+    'insufficient (?:credits|balance|funds|quota)',
+    '(?:status|code|error|http)\\W{0,3}(?:429|402)\\b',
+  ].join('|'),
+  'i'
+);
+const auth = new RegExp(
+  [
+    'not (?:logged|signed) in', // Not logged in · Please run /login / Not signed in
+    'log ?in',
+    'sign ?in',
+    'unauthori[sz]ed',
+    'authenticat', // authentication required / Missing bearer or basic authentication
+    'auth method', // gemini: Please set an Auth method
+    'invalid (?:api )?key',
+    'incorrect api key', // codex/OpenAI: Incorrect API key provided
+    'key not valid|api_key_invalid|invalid_api_key', // gemini: API key not valid
+    '(?:login|session|token) (?:has )?expired|expired token',
+    'oauth token (?:expired|revoked)',
+    '\\b401\\b',
+    '\\b403\\b',
+  ].join('|'),
+  'i'
+);
 const transient =
-  /overload|temporar|unavailable|timed? ?out|ETIMEDOUT|ECONN|ENOTFOUND|socket hang|\b50[0-4]\b|bad gateway/i;
+  /overload|temporar|unavailable|timed? ?out|ETIMEDOUT|ECONN|ENOTFOUND|socket hang|\b50[0-4]\b|bad gateway|try again in a (?:moment|minute)/i;
+// Bad flags and usage errors are always fatal, even when the printed help text mentions
+// logins or limits (gemini and agy print their full option list on an unknown flag).
+const usageError =
+  /unknown (?:option|argument)|unexpected argument|flags? provided but not defined|^Usage(?::\s| of \S+:)/im;
 
 const RELATIVE_RESET_RE =
-  /(?:try again (?:in|after)|retry after|resets? in|\bin)\s+(?:(\d+)\s*(?:hours?|hrs?|h)\b)?[\s,]*(?:(\d+)\s*(?:minutes?|mins?|m)\b)?[\s,]*(?:(\d+)\s*(?:seconds?|secs?|s)\b)?/i;
+  /(?:try again (?:in|after)|retry after|resets? in|\bin)\s+(?:(\d+)\s*(?:days?|d)(?![a-z]))?[\s,]*(?:(\d+)\s*(?:hours?|hrs?|h)(?![a-z]))?[\s,]*(?:(\d+)\s*(?:minutes?|mins?|m)(?![a-z]))?[\s,]*(?:(\d+(?:\.\d+)?)\s*(?:seconds?|secs?|s)(?![a-z]))?/gi;
+// "resets at 7:45 PM", "resets 3pm (Asia/Calcutta)", "resets Nov 14, 3pm", "try again at Nov 12th, 2026 3:05 PM"
 const CLOCK_RESET_RE =
-  /(?:resets?|try again|available)\s+at\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i;
+  /(?:resets?|try again|available)\s+(at\s+|on\s+)?(?:(?:([a-z]{3})[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?|(\d{1,2})(?:st|nd|rd|th)?\s+([a-z]{3})[a-z]*\.?)(?:,?\s+(\d{4}))?,?\s+(?:at\s+)?)?(\d{1,2})(?::(\d{2}))?(?:\s*([ap])\.?m\.?)?(?![a-z0-9:])/i;
+// Older Claude Code: "Claude AI usage limit reached|1731000000"
+const EPOCH_RESET_RE = /limit reached\|(\d{10,13})\b/i;
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+function parseRelativeReset(text) {
+  RELATIVE_RESET_RE.lastIndex = 0;
+  let m;
+  while ((m = RELATIVE_RESET_RE.exec(text)) !== null) {
+    if (m[0].length === 0) {
+      RELATIVE_RESET_RE.lastIndex += 1;
+      continue;
+    }
+    if (m[1] || m[2] || m[3] || m[4]) {
+      const totalMs =
+        (Number(m[1] || 0) * 86400 + Number(m[2] || 0) * 3600 + Number(m[3] || 0) * 60) * 1000 +
+        Math.ceil(Number(m[4] || 0) * 1000);
+      if (totalMs > 0) return totalMs;
+    }
+  }
+  return null;
+}
+
+function parseClockReset(text, now) {
+  const m = CLOCK_RESET_RE.exec(text);
+  if (!m) return null;
+  const [, at, monA, dayA, dayB, monB, year, hourStr, minuteStr, ampm] = m;
+  const monName = (monA || monB || '').toLowerCase();
+  // A bare number after "resets" needs am/pm, minutes, "at" or a date to count as a clock time
+  if (!at && !minuteStr && !ampm && !monName) return null;
+  let hour = Number(hourStr);
+  const minute = Number(minuteStr || 0);
+  const half = (ampm || '').toLowerCase();
+  if (half && (hour < 1 || hour > 12)) return null;
+  if (half === 'p' && hour < 12) hour += 12;
+  if (half === 'a' && hour === 12) hour = 0;
+  if (hour > 23 || minute > 59) return null;
+
+  const target = new Date(now);
+  if (monName) {
+    const month = MONTHS.indexOf(monName);
+    if (month < 0) return null;
+    const day = Number(dayA || dayB);
+    target.setFullYear(year ? Number(year) : target.getFullYear(), month, day);
+    target.setHours(hour, minute, 0, 0);
+    if (!year && target.getTime() <= now) target.setFullYear(target.getFullYear() + 1);
+  } else {
+    target.setHours(hour, minute, 0, 0);
+    if (target.getTime() <= now) target.setDate(target.getDate() + 1);
+  }
+  const ms = target.getTime() - now;
+  return ms > 0 ? ms : null;
+}
+
+function parseEpochReset(text, now) {
+  const m = EPOCH_RESET_RE.exec(text);
+  if (!m) return null;
+  const n = Number(m[1]);
+  const at = m[1].length === 13 ? n : n * 1000;
+  return at > now ? at - now : null;
+}
 
 const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
 const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
@@ -64,34 +164,8 @@ function classify(input, secondArg, thirdArg) {
   // Parse reset hints from text on a best-effort basis
   let parsedResetMs = null;
   if (combined) {
-    const relMatch = RELATIVE_RESET_RE.exec(combined);
-    if (relMatch && (relMatch[1] || relMatch[2] || relMatch[3])) {
-      const h = Number(relMatch[1] || 0);
-      const m = Number(relMatch[2] || 0);
-      const s = Number(relMatch[3] || 0);
-      const totalMs = (h * 3600 + m * 60 + s) * 1000;
-      if (totalMs > 0) {
-        parsedResetMs = totalMs;
-      }
-    }
-    if (parsedResetMs === null) {
-      const clockMatch = CLOCK_RESET_RE.exec(combined);
-      if (clockMatch) {
-        let hour = Number(clockMatch[1]);
-        const minute = Number(clockMatch[2] || 0);
-        const ampm = (clockMatch[3] || '').toLowerCase();
-        if (ampm === 'pm' && hour < 12) hour += 12;
-        if (ampm === 'am' && hour === 12) hour = 0;
-        if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60) {
-          const target = new Date(now);
-          target.setHours(hour, minute, 0, 0);
-          if (target.getTime() <= now) {
-            target.setDate(target.getDate() + 1);
-          }
-          parsedResetMs = target.getTime() - now;
-        }
-      }
-    }
+    parsedResetMs =
+      parseEpochReset(combined, now) ?? parseRelativeReset(combined) ?? parseClockReset(combined, now);
   }
 
   // Parse Retry-After header if present
@@ -147,7 +221,10 @@ function classify(input, secondArg, thirdArg) {
     category = 'ok';
     cooldownMs = 0;
   } else {
-    if (limit.test(combined)) {
+    if (usageError.test(combined)) {
+      category = 'fatal';
+      cooldownMs = 0;
+    } else if (limit.test(combined)) {
       category = 'limit';
       cooldownMs = parsedResetMs ?? FIVE_HOURS_MS;
     } else if (auth.test(combined)) {
@@ -180,5 +257,7 @@ classify.transient = transient;
 classify.LIMIT_RE = limit;
 classify.AUTH_RE = auth;
 classify.TRANSIENT_RE = transient;
+classify.usageError = usageError;
+classify.USAGE_ERROR_RE = usageError;
 
 module.exports = classify;

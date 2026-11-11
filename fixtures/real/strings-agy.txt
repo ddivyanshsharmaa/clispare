@@ -1,0 +1,8 @@
+# Literal strings in the installed Antigravity CLI (agy.exe), grepped 2026-11-11.
+# Format: <expected class><TAB><exact string><TAB><source file>
+limit	error: Individual quota reached. Please upgrade your subscription to increase your limits. Resets in 64h40m29s.	captured live, see agy-quota-exhausted.txt
+limit	RESOURCE_EXHAUSTED (code 429): Individual quota reached.	captured live, see agy-quota-exhausted.txt
+auth	Error: authentication required. Run 'agy' to log in, then retry.	composed from <HOME>/AppData/Local/agy/bin/agy.exe (template "Run '%s' to log in")
+auth	doRefreshQuota: skipped (not logged in)	<HOME>/AppData/Local/agy/bin/agy.exe
+transient	please try again in a minute.	<HOME>/AppData/Local/agy/bin/agy.exe (fragment ", please try again in a minute.")
+fatal	retry budget exhausted (3 attempts): boom	composed from <HOME>/AppData/Local/agy/bin/agy.exe (template "retry budget exhausted (%d attempts): %w")

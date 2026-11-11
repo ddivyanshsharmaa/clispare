@@ -1,0 +1,29 @@
+# Literal strings in the installed Claude Code native build, grepped 2026-11-11.
+# The rate-limit line is built as `You've hit your ${limitName}${suffix}` where limitName is
+# one of "session limit", "weekly limit", "Opus limit", "Sonnet limit", "Fable limit",
+# "usage credit limit" and suffix is ` · resets ${time}`; time is "3pm", "3:30pm" or, more than
+# 24h out, "Nov 14, 3pm", followed by " (<timezone>)". Lines marked "composed" are that template filled in.
+# Format: <expected class><TAB><exact string><TAB><source file>
+limit	You've hit your session limit · resets 3pm (Asia/Calcutta)	composed from <HOME>/.local/bin/claude.exe
+limit	You've hit your weekly limit · resets Nov 14, 3pm (Asia/Calcutta)	composed from <HOME>/.local/bin/claude.exe
+limit	You've hit your Opus limit · resets 3:30pm (Asia/Calcutta)	composed from <HOME>/.local/bin/claude.exe
+limit	You've hit your monthly spend limit.	<HOME>/.local/bin/claude.exe
+limit	You've hit your channel's monthly spend limit.	<HOME>/.local/bin/claude.exe
+limit	You've hit your team's shared budget. /model to switch models.	<HOME>/.local/bin/claude.exe
+limit	You've hit your fast limit	<HOME>/.local/bin/claude.exe
+limit	You've reached your Fable limit.	<HOME>/.local/bin/claude.exe
+limit	You're out of extra usage	<HOME>/.local/bin/claude.exe
+limit	You're out of usage credits. Switch to another model	<HOME>/.local/bin/claude.exe
+limit	Credit balance is too low	<HOME>/.local/bin/claude.exe
+limit	Goal paused · usage limit reached · send a message after it resets to continue	<HOME>/.local/bin/claude.exe
+limit	Lower-priority mode ended · you have reached your weekly usage limit	<HOME>/.local/bin/claude.exe
+limit	Rate limited	<HOME>/.local/bin/claude.exe
+limit	{"type":"error","error":{"type":"rate_limit_error"}}	<HOME>/.local/bin/claude.exe
+limit	Claude AI usage limit reached|1900000000	older Claude Code format, epoch seconds after the pipe
+auth	Not logged in · Please run /login	<HOME>/.local/bin/claude.exe
+auth	Not logged in. Run claude auth login to authenticate.	<HOME>/.local/bin/claude.exe
+auth	API Error: 401 Invalid API key · Please run /login	<HOME>/.local/bin/claude.exe
+auth	OAuth token revoked · Please run /login	<HOME>/.local/bin/claude.exe
+auth	Login expired · Please run /login	<HOME>/.local/bin/claude.exe
+auth	Your session has expired. Please run /login to sign in again.	<HOME>/.local/bin/claude.exe
+auth	Invalid API key · Fix external API key	<HOME>/.local/bin/claude.exe
